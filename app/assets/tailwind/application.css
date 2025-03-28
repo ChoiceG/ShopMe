@@ -1,5 +1,7 @@
-@import "tailwindcss";
 @import "@fortawesome/fontawesome-free/css/all.min.css";
+@import "tailwindcss";
+
+
 
 /* Add your custom styles below */
 body {

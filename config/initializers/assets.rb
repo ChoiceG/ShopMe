@@ -8,3 +8,8 @@ Rails.application.config.assets.version = "1.0"
 
 # config/initializers/assets.rb
 Rails.application.config.assets.precompile += %w[ tailwind.css ]
+
+# In config/initializers/assets.rb
+Rails.application.config.assets.paths += [
+  Rails.root.join("node_modules", "font-awesome", "fonts")
+]
