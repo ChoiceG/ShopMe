@@ -6,7 +6,6 @@ class Admin::CategoriesController < AdminController
   #   @admin_categories = Category.all
   # end
   # app/controllers/admin/categories_controller.rb
- # app/controllers/admin/categories_controller.rb
   def index
     # Get categories ordered by created_at in ascending order
     @admin_categories = Category.order(:created_at)
@@ -72,6 +71,6 @@ class Admin::CategoriesController < AdminController
 
     # Only allow a list of trusted parameters through.
     def admin_category_params
-      params.expect(category: [ :name, :description ])
+      params.expect(category: [ :name, :description, :image ])
     end
 end
