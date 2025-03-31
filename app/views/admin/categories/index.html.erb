@@ -1,4 +1,4 @@
-<%= content_for :title, "Categories" %>
+<% content_for :title, "Categories" %>
 
 <div class="w-full">
     <% if notice.present? %>
@@ -10,40 +10,56 @@
         <%= link_to "New category", new_admin_category_path, class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium" %>
     </div>
 
-    <div id="admin_categories" class="w-full">
-        <% if @admin_categories.any? %>
-        <% @admin_categories.each do |category| %>
-        <div id="<%= dom_id(category) %>" class="w-full sm:w-auto my-5 space-y-5">
-            <div class="bg-white p-4 border border-gray-300 rounded-lg shadow-md flex items-center space-x-4">
-                <!-- Category Image Section -->
-                <div class="w-16 h-16 bg-gray-200 rounded-full flex justify-center items-center">
-                    <!-- Display image icon or a placeholder if no image -->
-                    <%= image_tag category.image.presence || "logo.png", alt: "Category Image", class: "w-12 h-12 object-cover" %>
-                </div>
-
-                <!-- Category Name Section -->
-                <div class="flex-1">
-                    <strong class="block font-medium mb-2 text-lg">Name:</strong>
-                    <p class="text-gray-700"><%= category.name %></p>
-                </div>
-            </div>
-
-            <div class="bg-white p-4 border border-gray-300 rounded-lg shadow-md">
-                <!-- Description -->
-                <strong class="block font-medium mb-2 text-lg">Description:</strong>
-                <p class="text-gray-700"><%= category.description %></p>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="w-full sm:w-auto flex space-x-4">
-                <%= link_to "Show", admin_category_path(category), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-                <%= link_to "Edit", edit_admin_category_path(category), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-                <%= button_to "Destroy", admin_category_path(category), method: :delete, class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-red-600 hover:bg-red-500 font-medium", data: { turbo_confirm: "Are you sure?" } %>
-            </div>
-        </div>
-        <% end %>
-        <% else %>
-        <p class="text-center my-10">No categories found.</p>
-        <% end %>
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Image
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Name
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Description
+                    </th>
+                    <th scope="col" class="relative px-6 py-3">
+                        <span class="sr-only">Actions</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                <% if @admin_categories.any? %>
+                <% @admin_categories.each do |category| %>
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="w-16 h-16 bg-gray-200 rounded-full flex justify-center items-center">
+                            <%= image_tag category.image.presence || "logo.png", alt: "Category Image", class: "w-12 h-12 object-cover" %>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <%= category.name %>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <%= category.description %>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <div class="flex justify-end space-x-2">
+                            <%= link_to "Show", admin_category_path(category), class: "rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 font-medium" %>
+                            <%= link_to "Edit", edit_admin_category_path(category), class: "rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 font-medium" %>
+                            <%= button_to "Destroy", admin_category_path(category), method: :delete, class: "rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } %>
+                        </div>
+                    </td>
+                </tr>
+                <% end %>
+                <% else %>
+                <tr>
+                    <td colspan="4" class="px-6 py-4 whitespace-nowrap text-center">
+                        <p class="my-10">No categories found.</p>
+                    </td>
+                </tr>
+                <% end %>
+            </tbody>
+        </table>
     </div>
 </div>

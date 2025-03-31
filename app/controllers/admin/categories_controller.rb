@@ -14,7 +14,10 @@ class Admin::CategoriesController < AdminController
 
   # GET /admin/categories/1 or /admin/categories/1.json
   def show
+    @category = Category.find(params[:id])
+    @products = @category.products # Fetch products for this category
   end
+
 
   # GET /admin/categories/new
   def new
@@ -71,6 +74,7 @@ class Admin::CategoriesController < AdminController
 
     # Only allow a list of trusted parameters through.
     def admin_category_params
-      params.expect(category: [ :name, :description, :image ])
+      # Permit the :category parameter, and inside it, allow :name, :description, and :image
+      params.require(:category).permit(:name, :description, :image)
     end
 end

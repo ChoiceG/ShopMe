@@ -1,0 +1,75 @@
+<% content_for :title, "Products" %>
+
+<div class="w-full">
+    <% if notice.present? %>
+    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
+    <% end %>
+
+    <div class="flex justify-between items-center mb-4">
+        <h1 class="font-bold text-4xl">Products</h1>
+        <%= link_to "New product", new_admin_product_path, class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium" %>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Name
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Description
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Price
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Category
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Active
+                    </th>
+                    <th scope="col" class="relative px-6 py-3">
+                        <span class="sr-only">Actions</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                <% if @admin_products.any? %>
+                <% @admin_products.each do |admin_product| %>
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <%= admin_product.name %>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <%= truncate(admin_product.description, length: 50) %>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <%= admin_product.price %>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <%= admin_product.category&.name %>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <%= admin_product.active ? 'Yes' : 'No' %>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <div class="flex justify-end space-x-2">
+                            <%= link_to "Show", admin_product_path(admin_product), class: "rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 font-medium" %>
+                            <%= link_to "Edit", edit_admin_product_path(admin_product), class: "rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 font-medium" %>
+                            <%= button_to "Destroy", admin_product_path(admin_product), method: :delete, class: "rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } %>
+                        </div>
+                    </td>
+                </tr>
+                <% end %>
+                <% else %>
+                <tr>
+                    <td colspan="6" class="px-6 py-4 whitespace-nowrap text-center">
+                        <p class="my-10">No products found.</p>
+                    </td>
+                </tr>
+                <% end %>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+<% content_for :title, "Showing Product" %>
+
+<div class="md:w-2/3 w-full">
+    <% if notice.present? %>
+    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
+    <% end %>
+
+    <h1 class="font-bold text-4xl">Showing Product</h1><br>
+
+    <!-- Product Name -->
+    <div class="bg-white p-4 border border-gray-300 rounded-lg shadow-md">
+        <strong class="block font-medium text-lg">Name:</strong>
+        <p class="text-gray-700"><%= @product.name %></p>
+    </div>
+
+    <!-- Product Description -->
+    <div class="bg-white p-4 border border-gray-300 rounded-lg shadow-md">
+        <strong class="block font-medium text-lg">Description:</strong>
+        <p class="text-gray-700"><%= @product.description %></p>
+    </div>
+
+    <!-- Category Image -->
+    <% if @product.category.image.attached? %>
+    <div class="mb-4">
+        <strong class="block font-medium text-lg">Category Image:</strong>
+        <%= image_tag @product.category.image, class: "w-full h-auto" %>
+    </div>
+    <% else %>
+    <p class="text-gray-600">No category image available.</p>
+    <% end %>
+
+    <!-- Product Price -->
+    <div class="bg-white p-4 border border-gray-300 rounded-lg shadow-md">
+        <strong class="block font-medium text-lg">Price:</strong>
+        <p class="text-gray-700"><%= @product.price %></p>
+    </div>
+
+    <%= link_to "Edit this product", edit_admin_product_path(@product), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+    <%= link_to "Back to products", admin_products_path, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+
+    <div class="sm:inline-block mt-2 sm:mt-0 sm:ml-2">
+        <%= button_to "Destroy this product", admin_product_path(@product), method: :delete, class: "w-full rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } %>
+    </div>
+</div>
