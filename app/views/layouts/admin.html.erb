@@ -11,57 +11,69 @@
 
     <%= yield :head %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
+    <!-- Include Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
+    <!-- Include FontAwesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
+
+    <!-- Include Tailwind CSS -->
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
 </head>
 
-<body>
-    <main class="flex">
-        <nav class="flex w-full">
-            <div class="w-64 p-4 h-screen bg-gray-600 sticky top-0">
-                <div class="flex">
-                    <%= image_tag 'logo.png', alt: 'Site Logo',  class: 'w-16' %>
-                    <h1 class="text-md py-2 text-gray-50 font-bold hidden md:block">ShopMe Admin</h1>
-                </div><br>
-                <ul class="flex flex-col text-gray-50">
-                    <li>
-                        <%=link_to admin_path, class: "block px-4 py-2 hover:rounded hover:bg-gray-700" do %>
-                        <i class="fa-solid fa-gauge-high mr-2"></i>
-                        <span class="hidden md:inline-block">Dashboard</span>
-                        <% end %>
-                    </li>
-                    <li>
-                        <%=link_to admin_path, class: "block px-4 py-2 hover:rounded hover:bg-gray-700" do %>
-                        <i class="fa-solid fa-cart-shopping mr-2"></i>
-                        <span class="hidden md:inline-block">Product</span>
-                        <% end %>
-                    </li>
-                    <li>
-                        <%=link_to admin_categories_path, class: "block px-4 py-2 hover:rounded hover:bg-gray-700" do %>
-                        <i class="fa-solid fa-list mr-2"></i>
-                        <span class="hidden md:inline-block">Categories</span>
-                        <% end %>
-                    </li>
-                    <li>
-                        <%=link_to admin_path, class: "block px-4 py-2 hover:rounded hover:bg-gray-700" do %>
-                        <i class="fa-solid fa-truck-fast mr-2"></i>
-                        <span class="hidden md:inline-block">Orders</span>
-                        <% end %>
-                    </li>
-                </ul>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Main Layout -->
+    <main class="flex flex-1">
+
+        <!-- Sidebar (Navigation) -->
+        <nav class="w-64 bg-gray-600 p-4 sticky top-0 h-screen">
+            <!-- Logo Section -->
+            <div class="flex items-center mb-8">
+                <%= image_tag 'logo.png', alt: 'Site Logo', class: 'w-16' %>
+                <h1 class="text-md py-2 text-gray-50 font-bold hidden md:block">ShopMe Admin</h1>
             </div>
+
+            <!-- Navigation Links -->
+            <ul class="flex flex-col space-y-4 text-gray-50">
+                <li>
+                    <%= link_to admin_path, class: "block px-4 py-2 hover:rounded hover:bg-gray-700" do %>
+                    <i class="fa-solid fa-gauge-high mr-2"></i>
+                    <span class="hidden md:inline-block">Dashboard</span>
+                    <% end %>
+                </li>
+                <li>
+                    <%= link_to admin_path, class: "block px-4 py-2 hover:rounded hover:bg-gray-700" do %>
+                    <i class="fa-solid fa-cart-shopping mr-2"></i>
+                    <span class="hidden md:inline-block">Product</span>
+                    <% end %>
+                </li>
+                <li>
+                    <%= link_to admin_categories_path, class: "block px-4 py-2 hover:rounded hover:bg-gray-700" do %>
+                    <i class="fa-solid fa-list mr-2"></i>
+                    <span class="hidden md:inline-block">Categories</span>
+                    <% end %>
+                </li>
+                <li>
+                    <%= link_to admin_path, class: "block px-4 py-2 hover:rounded hover:bg-gray-700" do %>
+                    <i class="fa-solid fa-truck-fast mr-2"></i>
+                    <span class="hidden md:inline-block">Orders</span>
+                    <% end %>
+                </li>
+            </ul>
         </nav>
-        <%= yield %>
+
+        <!-- Main Content Area -->
+        <div class="flex-grow p-4 bg-gray-100">
+            <%= yield %>
+            <!-- Content will be injected here -->
+        </div>
+
     </main>
+
 </body>
 
 </html>
