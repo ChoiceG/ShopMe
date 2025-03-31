@@ -1,11 +1,8 @@
 @import "@fortawesome/fontawesome-free/css/all.min.css";
 @import "tailwindcss";
 
-
-
 /* Add your custom styles below */
 body {
-    background-color: lightblue;
-    font-family: "Inter", sans-serif;
-  }
-
+  background-color: lightblue !important;
+  font-family: "Inter", sans-serif !important;
+}

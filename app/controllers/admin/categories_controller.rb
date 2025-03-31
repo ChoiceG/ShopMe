@@ -25,7 +25,7 @@ class Admin::CategoriesController < AdminController
 
     respond_to do |format|
       if @admin_category.save
-        format.html { redirect_to @admin_category, notice: "Category was successfully created." }
+        format.html { redirect_to admin_category_path(@admin_category), notice: "Category was successfully created." }
         format.json { render :show, status: :created, location: @admin_category }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +38,7 @@ class Admin::CategoriesController < AdminController
   def update
     respond_to do |format|
       if @admin_category.update(admin_category_params)
-        format.html { redirect_to @admin_category, notice: "Category was successfully updated." }
+        format.html { redirect_to admin_category_path(@admin_category), notice: "Category was successfully updated." }
         format.json { render :show, status: :ok, location: @admin_category }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -65,6 +65,6 @@ class Admin::CategoriesController < AdminController
 
     # Only allow a list of trusted parameters through.
     def admin_category_params
-      params.expect(admin_category: [ :name, :description ])
+      params.expect(category: [ :name, :description ])
     end
 end

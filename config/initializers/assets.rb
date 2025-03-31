@@ -8,6 +8,7 @@ Rails.application.config.assets.version = "1.0"
 
 # config/initializers/assets.rb
 Rails.application.config.assets.precompile += %w[ tailwind.css ]
+Rails.application.config.assets.precompile += %w[ application.css ]
 
 # In config/initializers/assets.rb
 Rails.application.config.assets.paths += [
