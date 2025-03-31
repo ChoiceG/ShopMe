@@ -1,10 +1,17 @@
 class Admin::CategoriesController < AdminController
   before_action :set_admin_category, only: %i[ show edit update destroy ]
 
-  # GET /admin/categories or /admin/categories.json
+  # # GET /admin/categories or /admin/categories.json
+  # def index
+  #   @admin_categories = Category.all
+  # end
+  # app/controllers/admin/categories_controller.rb
+ # app/controllers/admin/categories_controller.rb
   def index
-    @admin_categories = Category.all
+    # Get categories ordered by created_at in ascending order
+    @admin_categories = Category.order(:created_at)
   end
+
 
   # GET /admin/categories/1 or /admin/categories/1.json
   def show
