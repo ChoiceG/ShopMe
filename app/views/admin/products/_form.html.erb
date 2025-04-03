@@ -1,4 +1,4 @@
-<%= form_with(model: admin_product, url: admin_products_path, class: "contents") do |form| %>
+<%= form_with(model: admin_product, url: admin_product.persisted? ? admin_product_path(admin_product) : admin_products_path, method: admin_product.persisted? ? :patch : :post, class: "contents") do |form| %>
 <% if admin_product.errors.any? %>
 <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
     <h2><%= pluralize(admin_product.errors.count, "error") %> prohibited this admin_product from being saved:</h2>
@@ -20,16 +20,41 @@
     <%= form.textarea :description, rows: 4, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": admin_product.errors[:description].none?, "border-red-400 focus:outline-red-600": admin_product.errors[:description].any?}] %>
 </div>
 
+<!-- Display Existing Images -->
+<% if admin_product.images.attached? %>
+<div class="my-5">
+    <strong class="block font-medium text-lg">Current Images:</strong>
+    <div class="flex gap-2">
+        <% admin_product.images.each do |image| %>
+        <div class="relative">
+            <%= image_tag image, class: "w-32 h-32 object-cover" %>
+        </div>
+        <% end %>
+    </div>
+</div>
+<% end %>
+
+
+<!-- File Upload for New Images -->
+<div class="my-5">
+    <%= form.label :image %>
+    <%= form.file_field :images, multiple: true, rows: 4, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": admin_product.errors[:description].none?, "border-red-400 focus:outline-red-600": admin_product.errors[:description].any?}] %>
+</div>
+
 <div class="my-5">
     <%= form.label :price %>
     <%= form.number_field :price, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": admin_product.errors[:price].none?, "border-red-400 focus:outline-red-600": admin_product.errors[:price].any?}] %>
 </div>
 
 <!-- Category Selection -->
-<div class="my-5">
-    <%= form.label :category_id, "Select Category" %>
-    <%= form.collection_select :category_id, Category.all, :id, :name, prompt: "Select a Category", class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": admin_product.errors[:category_id].none?, "border-red-400 focus:outline-red-600": admin_product.errors[:category_id].any?}] %>
+<div class="my-5 flex items-center space-x-4">
+    <%= form.label :category_id, class: "block text-lg font-medium w-1/4" %>
+    <%= form.collection_select :category_id, Category.order(:name), :id, :name, 
+        id: "category", 
+        class: "block shadow-md rounded-md border-2 border-gray-300 outline-none focus:outline-blue-500 px-3 py-2 w-3/4" 
+    %>
 </div>
+
 
 <div class="my-5 flex items-center gap-2">
     <%= form.label :active %>

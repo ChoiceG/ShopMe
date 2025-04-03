@@ -34,7 +34,7 @@
                 <tr>
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="w-16 h-16 bg-gray-200 rounded-full flex justify-center items-center">
-                            <%= image_tag category.image.presence || "logo.png", alt: "Category Image", class: "w-12 h-12 object-cover" %>
+                            <%= image_tag category.image.variant(:thumbnail).presence || "logo.png", alt: "Category Image", class: "w-12 h-12 object-cover" %>
                         </div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
