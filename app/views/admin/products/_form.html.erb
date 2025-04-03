@@ -60,9 +60,11 @@
     <%= form.checkbox :active, class: ["block shadow-sm rounded-md border order-first h-5 w-5", {"border-gray-400 focus:outline-blue-600": admin_product.errors[:active].none?, "border-red-400 focus:outline-red-600": admin_product.errors[:active].any?}] %>
 </div>
 
+<% if admin_product.persisted? %>
 <div class="my-5 flex items-center gap-2">
     <%= link_to "Product Stock", admin_product_stocks_path(admin_product), class: "underline" %>
 </div>
+<% end %>
 
 <div class="inline">
     <%= form.submit class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>

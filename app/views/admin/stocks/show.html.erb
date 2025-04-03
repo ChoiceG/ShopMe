@@ -1,17 +1,40 @@
 <% content_for :title, "Showing stock" %>
 
 <div class="md:w-2/3 w-full">
-  <% if notice.present? %>
+    <% if notice.present? %>
     <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
-  <% end %>
+    <% end %>
 
-  <h1 class="font-bold text-4xl">Showing stock</h1>
+    <h1 class="font-bold text-4xl">Showing stock</h1><br>
 
-  <%= render @admin_stock %>
+    <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+            <tr>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Quantity
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Size
+                </th>
+            </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <%= @admin_stock.amount %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <%= @admin_stock.size %>
+                </td>
+            </tr>
+        </tbody>
+    </table><br>
 
-  <%= link_to "Edit this stock", edit_admin_stock_path(@admin_stock), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-  <%= link_to "Back to stocks", admin_stocks_path, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-  <div class="sm:inline-block mt-2 sm:mt-0 sm:ml-2">
-    <%= button_to "Destroy this stock", @admin_stock, method: :delete, class: "w-full rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } %>
-  </div>
+    <div class="mt-8 flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
+        <%= link_to "Edit this stock", edit_admin_product_stock_path(@admin_stock), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+        <%= link_to "Back to stocks", admin_product_stocks_path(@admin_stock.product), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+        <div class="sm:inline-block">
+            <%= button_to "Destroy this stock", admin_product_stock_path(@admin_stock), method: :delete, class: "w-full rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } %>
+        </div>
+    </div>
 </div>
