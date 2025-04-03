@@ -15,6 +15,8 @@ class Admin::ProductsController < AdminController
   # GET /admin/products/new
   def new
     @admin_product = Product.new
+    @admin_product = Product.find(params[:product_id]) # Find the product you're associating the stock with
+    @admin_product_stock = @admin_product.stocks.new
   end
 
   # GET /admin/products/1/edit
