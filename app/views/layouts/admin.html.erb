@@ -64,6 +64,12 @@
                     <span class="hidden md:inline-block">Orders</span>
                     <% end %>
                 </li>
+                <li>
+                    <%= button_to destroy_admin_session_path, method: :delete, class: "block px-4 py-2 hover:rounded hover:bg-gray-700" do %>
+                    <i class="fa-solid fa-right-from-bracket mr-2"></i>
+                    <span class="hidden md:inline-block">Sign Out</span>
+                    <% end %>
+                </li>
             </ul>
         </nav>
 
