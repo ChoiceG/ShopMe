@@ -6,4 +6,5 @@ class Product < ApplicationRecord
   end
 
   has_many :stocks
+  has_many :order_products
 end

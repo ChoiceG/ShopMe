@@ -1,18 +1,66 @@
-<div id="<%= dom_id order %>" class="w-full sm:w-auto my-5 space-y-5">
-  <div>
-    <strong class="block font-medium mb-1">Customer email:</strong>
-    <%= order.customer_email %>
-  </div>
-  <div>
-    <strong class="block font-medium mb-1">Fulfilled:</strong>
-    <%= order.fulfilled? ? "Yes" : "No" %>
-  </div>
-  <div>
-    <strong class="block font-medium mb-1">Total:</strong>
-    <%= order.total %>
-  </div>
-  <div>
-    <strong class="block font-medium mb-1">Address:</strong>
-    <%= order.address %>
-  </div>
+<div id="<%= dom_id order %>" class="w-full sm:w-auto my-5 overflow-x-auto">
+    <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+            <tr>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Attribute
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Value
+                </th>
+            </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <strong>Customer email:</strong>
+                </td>
+                <td class="px-6 py-4">
+                    <%= order.customer_email %>
+                </td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <strong>Fulfilled:</strong>
+                </td>
+                <td class="px-6 py-4">
+                    <%= order.fulfilled? ? "Yes" : "No" %>
+                </td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <strong>Total:</strong>
+                </td>
+                <td class="px-6 py-4">
+                    <%= order.total %>
+                </td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4">
+                    <strong>Address:</strong>
+                </td>
+                <td class="px-6 py-4">
+                    <%= order.address %>
+                </td>
+            </tr>
+            <% if order.order_products.any? %>
+            <tr>
+                <td class="px-6 py-4">
+                    <strong>Products:</strong>
+                </td>
+                <td class="px-6 py-4">
+                    <% order.order_products.each do |op| %>
+                    <div class="mb-4">
+                        <span class="mr-4"><strong>Name:</strong> <%= op.product.name %></span><br>
+                        <div class=" mt-1">
+                            <span class="mr-4"><strong>Size:</strong> <%= op.size %></span><br>
+                            <span><strong>Qty:</strong> <%= op.quantity %></span>
+                        </div>
+                    </div>
+                    <% end %>
+                </td>
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
 </div>
