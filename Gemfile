@@ -22,6 +22,8 @@ gem "devise"
 # Use to style icons
 gem "font-awesome-sass"
 gem "font-awesome-rails"
+# Use for link association
+gem "cocoon"
 
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
