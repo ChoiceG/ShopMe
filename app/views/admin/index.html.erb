@@ -35,13 +35,38 @@
             </div>
         </div>
     </div><br>
-
     <div class="mt-8 w-full flex flex-col" data-controller="dashboard" data-dashboard-revenue-value="<%= @revenue_by_day.to_json %>">
         <h2 class=" text-2xl text-gray-800 font-medium mb-4">Revenue Over the Last 7 Days</h2>
         <div class="w-full">
             <canvas id="revenueChart"></canvas>
         </div>
-    </div><br>
+    </div>
 
-
+    <div class="flex flex-col w-full mt-8">
+        <h2 class="text-2xl text-gray-800 mb-4 font-medium">Recent Unfulfilled Orders</h2>
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white shadow-md rounded-lg">
+                <thead class="bg-gray-100">
+                    <tr class="text-gray-800">
+                        <th class="px-6 py-3 text-left font-semibold text-gray-700 uppercase tracking-wider">Order ID</th>
+                        <th class="px-6 py-3 text-left font-semibold text-gray-700 uppercase tracking-wider">Customer</th>
+                        <th class="px-6 py-3 text-left font-semibold text-gray-700 uppercase tracking-wider">Date</th>
+                        <th class="px-6 py-3 text-left font-semibold text-gray-700 uppercase tracking-wider">Amount</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white">
+                    <% @orders.each do |order| %>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <%= link_to order.id, admin_order_path(order), class: "text-indigo-600 hover:text-indigo-900 underline" %>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap"><%= order.customer_email %></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><%= order.created_at.strftime("%B %d, %Y %H:%M") %></td>
+                        <td class="px-6 py-4 whitespace-nowrap">₦<%= (order.total).to_s %></td>
+                    </tr>
+                    <% end %>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
