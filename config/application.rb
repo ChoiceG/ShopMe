@@ -23,6 +23,6 @@ module ShopMe
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
-    config.time_zone = "Africa/Lagos" # Or your desired time zone
+    # config.time_zone = "Africa/Lagos" # Or your desired time zone
   end
 end

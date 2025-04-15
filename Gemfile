@@ -24,7 +24,7 @@ gem "font-awesome-sass"
 gem "font-awesome-rails"
 # Use for link association
 gem "cocoon"
-
+gem "chart-js-rails"
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"

@@ -1,6 +1,13 @@
-// Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
 import "@hotwired/turbo-rails";
 import "controllers";
-import 'font-awesome/css/all.css';
-import "cocoon-js"; 
+// import 'font-awesome/css/all.css';
+// import "cocoon-js";
 
+import { Application } from "@hotwired/stimulus";
+import DashboardController from "controllers/dashboard_controller"; // Correct import using the importmap name
+
+const application = Application.start();
+application.register("dashboard", DashboardController);
+application.debug = true;
+window.Stimulus = application;
+window.application = application;

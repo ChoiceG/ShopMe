@@ -1,11 +1,12 @@
-# Pin npm packages by running ./bin/importmap
-
-pin "application"
+# Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
 pin "@hotwired/turbo-rails", to: "turbo.min.js"
 pin "@hotwired/stimulus", to: "stimulus.min.js"
 pin "@hotwired/stimulus-loading", to: "stimulus-loading.js"
 pin_all_from "app/javascript/controllers", under: "controllers"
 
-pin "tailwindcss", to: "https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.js"
-pin "postcss", to: "https://cdn.jsdelivr.net/npm/postcss@latest/dist/postcss.min.js"
-pin "cocoon-js", to: "https://ga.jspm.io/npm:cocoon-js@1.0.1/dist/cocoon.js" # Or the specific CDN URL for cocoon-js
+pin "application", to: "application.js", preload: true
+pin "controllers/dashboard_controller", to: "controllers/dashboard_controller.js"
+
+pin "chart.js", to: "https://ga.jspm.io/npm:chart.js@4.4.8/dist/chart.js" # Or a similar line
+pin "@kurkle/color", to: "https://ga.jspm.io/npm:@kurkle/color@0.3.4/dist/color.esm.js"
+# pin "cocoon-js", to: "https://ga.jspm.io/npm:cocoon-js@1.0.1/dist/cocoon.js" # You have this in application.js import
