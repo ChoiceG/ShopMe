@@ -20,7 +20,6 @@ gem "jbuilder"
 # Use for user authentication
 gem "devise"
 # Use to style icons
-gem "font-awesome-sass"
 gem "font-awesome-rails"
 # Use for link association
 gem "cocoon"
