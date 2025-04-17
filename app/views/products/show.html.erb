@@ -1,0 +1,37 @@
+<div class="min-h-screen flex justify-center gap-20 py-10">
+    <div class="flex flex-col justify-start max-w-lg">
+        <div class="flex flex-wrap">
+            <% @product.images.each do |image| %>
+            <%= image_tag image.variant(resize_to_fill: [800, 800]), class: "w-64 h-64 object-cover rounded mb-4" %>
+            <% end %>
+        </div>
+    </div>
+    <div class="flex flex-col items-start max-w-sm">
+        <div class="mb-8">
+            <h1 class="font-bold text-4xl uppercase mb-4">
+                <%= @product.name %>
+            </h1>
+            <p class="text-2xl mb-2">₦<%= number_with_delimiter(@product.price, delimiter: ',', precision: 0) %></p>
+            <p class="text-md leading-relaxed mb-6"><%= @product.description %></p>
+        </div>
+        <div class="mb-8">
+            <p class="uppercase text-lg mb-2">Size</p>
+            <div class="flex flex-wrap gap-2">
+                <% @product.stocks.each do |stock| %>
+                <% if stock.amount > 0 %>
+                <button value="<%= stock.size %>" class="bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 mr-2 mb-2">
+                    <%= stock.size %>
+                </button>
+                <% else %>
+                <button disabled value="<%= stock.size %>" class=" disabled:bg-gray-400 bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 mr-2 mb-2">
+                    <%= stock.size %>
+                </button>
+                <% end %>
+                <% end %>
+            </div>
+        </div>
+        <button class="bg-indigo-600 text-white font-semibold py-3 px-6 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
+            Add to Cart
+        </button>
+    </div>
+</div>

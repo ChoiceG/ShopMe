@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   get "admin" => "admin#index"
 
   resources :categories, only: [ :show ]
+  resources :products, only: [ :show ]
   get "about" => "pages#about"
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
