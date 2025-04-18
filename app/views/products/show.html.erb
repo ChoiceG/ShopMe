@@ -1,37 +1,65 @@
+<!-- Main container with full vertical height, centered content, horizontal spacing -->
 <div class="min-h-screen flex justify-center gap-20 py-10">
+
+    <!-- LEFT SECTION: Product Images -->
     <div class="flex flex-col justify-start max-w-lg">
         <div class="flex flex-wrap">
             <% @product.images.each do |image| %>
+            <!-- Render each product image with fixed size and styling -->
             <%= image_tag image.variant(resize_to_fill: [800, 800]), class: "w-64 h-64 object-cover rounded mb-4" %>
             <% end %>
         </div>
     </div>
-    <div data-controller="products" data-products-product-value="<%= @product.to_json%>" class=" flex flex-col items-start max-w-sm">
+
+    <!-- RIGHT SECTION: Product Info and Add to Cart -->
+    <!-- Connects to Stimulus 'products' controller and passes serialized product data as JSON -->
+    <div data-controller="products" data-products-product-value='<%= raw @product_json %>' class="flex flex-col items-start max-w-sm">
+
+        <!-- Product Name, Price, and Description -->
         <div class="mb-8">
+            <!-- Product name, bold and uppercase -->
             <h1 class="font-bold text-4xl uppercase mb-4">
                 <%= @product.name %>
             </h1>
-            <p class=" text-2xl mb-2">₦<%= number_with_delimiter(@product.price, delimiter: ',', precision: 0) %></p>
+
+            <!-- Product price, formatted with commas and no decimals -->
+            <p class="text-2xl mb-2">₦<%= number_with_delimiter(@product.price, delimiter: ',', precision: 0) %></p>
+
+            <!-- Product description -->
             <p class="text-md leading-relaxed mb-6"><%= @product.description %></p>
         </div>
+
+        <!-- SIZE SELECTOR SECTION -->
         <div class="mb-8">
             <p class="uppercase text-lg mb-2">Size</p>
+
+            <!-- Render size buttons for each stock entry -->
             <div class="flex flex-wrap gap-2">
                 <% @product.stocks.each do |stock| %>
                 <% if stock.amount > 0 %>
-                <button data-action="click->products#selectSize" value=" <%= stock.size %>" class="bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 mr-2 mb-2">
+                <!-- Active size button with click action to select the size -->
+                <button data-action="click->products#selectSize" value="<%= stock.size %>" class="bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 mr-2 mb-2">
                     <%= stock.size %>
                 </button>
                 <% else %>
-                <button disabled value="<%= stock.size %>" class=" disabled:bg-gray-400 bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 mr-2 mb-2">
+                <!-- Disabled button for out-of-stock sizes -->
+                <button disabled value="<%= stock.size %>" class="disabled:bg-gray-400 bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 mr-2 mb-2">
                     <%= stock.size %>
                 </button>
                 <% end %>
                 <% end %>
             </div>
         </div>
+
+        <!-- Selected size feedback area -->
         <div id="selected-size"></div>
-        <button data-action="click->products#addToCart" class=" bg-indigo-600 text-white font-semibold py-3 px-6 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
+
+        <!-- Quantity input -->
+        <label for="quantity">Quantity:</label>
+        <input type="number" min="1" value="1" id="quantity-input" data-products-target="quantity" class="border px-2 py-1 rounded w-20 ml-2" /><br>
+
+        <!-- Add to Cart button triggers addToCart in Stimulus controller -->
+        <button data-action="click->products#addToCart" class="bg-indigo-600 text-white font-semibold py-3 px-6 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
             Add to Cart
         </button>
     </div>
