@@ -21,9 +21,12 @@ gem "jbuilder"
 gem "devise"
 # Use to style icons
 gem "font-awesome-rails"
-# Use for link association
-gem "cocoon"
+# Use to add chart
 gem "chart-js-rails"
+# Use to add payment
+gem "stripe"
+# Use to save env
+gem "figaro"
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"

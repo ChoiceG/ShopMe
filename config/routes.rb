@@ -20,6 +20,15 @@ Rails.application.routes.draw do
   resources :products, only: [ :show ]
   get "about" => "pages#about"
   get "cart" => "carts#show"
+  # post "checkout" => "checkout#create"
+
+  post "/checkout", to: "checkouts#create"
+  # Define success and cancel routes for Stripe redirect
+  get "/checkout/success", to: "checkouts#success", as: :success_checkout
+  get "/checkout/cancel", to: "checkouts#cancel", as: :cancel_checkout
+
+
+
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.

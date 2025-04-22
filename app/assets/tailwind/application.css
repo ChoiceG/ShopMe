@@ -8,3 +8,21 @@
 body {
    font-family: "Inter", sans-serif !important;
 }
+
+.flash-container{
+   position: absolute;
+   top: 10%;
+ }
+ 
+ @media (min-width: 768px) {
+   .flash-container {
+       max-width: 100%;
+   }
+ }
+ 
+ .alert {
+   text-align: center;
+   background-color: rgba(236, 47, 75, 0.6); /* #ec2F4B with 60% opacity */
+   border-color: rgba(236, 47, 75, 0.8);
+   color:antiquewhite;
+ }
