@@ -27,6 +27,8 @@ gem "chart-js-rails"
 gem "stripe"
 # Use to save env
 gem "figaro"
+# Use to set pagination
+gem "pagy"
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
