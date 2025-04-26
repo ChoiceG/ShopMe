@@ -6,7 +6,21 @@ Rails.application.routes.draw do
     end
     resources :categories
   end
-  devise_for :admins
+  
+  # devise_for :admins
+
+  # devise_for :admins, controllers: {
+  # sessions: 'admins/sessions',
+  # registrations: 'admins/registrations',
+  # passwords: 'admins/passwords'
+  # }
+
+  devise_for :admins, skip: [:registrations], controllers: {
+  sessions: 'admins/sessions',
+  passwords: 'admins/passwords'
+  }
+
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   authenticated :admin do # Corrected: use :admin instead of :admin_user
     root to: "admin#index", as: :admin_root

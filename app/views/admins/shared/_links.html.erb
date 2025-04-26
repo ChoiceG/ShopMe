@@ -1,0 +1,11 @@
+<%# app/views/admins/shared/_links.html.erb %>
+
+<% unless controller_name == 'sessions' %>
+<%= link_to "Log in", new_session_path(resource_name), class: "text-indigo-400 hover:underline" %><br />
+<% end %>
+
+<% if devise_mapping.recoverable? && controller_name != 'passwords' %>
+<%= link_to "Forgot your password?", new_password_path(resource_name), class: "text-indigo-400 hover:underline" %><br />
+<% end %>
+
+<%= link_to "Back to homepage", root_path, class: "text-gray-400 hover:underline" %>
