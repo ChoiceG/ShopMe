@@ -14,7 +14,7 @@ Rails.application.routes.draw do
 
   root to: "home#index"
 
-  get "admin" => "admin#index"
+  # get "admin" => "admin#index"
 
   resources :categories, only: [ :show ]
   resources :products, only: [ :show ]
@@ -27,8 +27,17 @@ Rails.application.routes.draw do
   get "/checkout/success", to: "checkouts#success", as: :success_checkout
   get "/checkout/cancel", to: "checkouts#cancel", as: :cancel_checkout
 
-   post "/webhooks/stripe", to: "webhooks#stripe"
+  post "/webhooks/stripe", to: "webhooks#stripe"
 
+  resources :orders, only: [] do
+    member do
+      get :receipt
+    end
+  end
+  
+  # Keep this route so Stripe redirects here
+  # get "/checkout/success", to: "checkouts#success"
+  
 
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

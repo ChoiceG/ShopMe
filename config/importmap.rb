@@ -9,6 +9,7 @@ pin "controllers/dashboard_controller", to: "controllers/dashboard_controller.js
 pin "controllers/products_controller", to: "controllers/products_controller.js"
 pin "controllers/cart_controller", to: "controllers/cart_controller.js"
 pin "controllers/alert_controller", to: "controllers/alert_controller.js"
+pin "controllers/carousel_controller", to: "controllers/carousel_controller.js"
 
 pin "chart.js", to: "https://ga.jspm.io/npm:chart.js@4.4.8/dist/chart.js" # Or a similar line
 pin "@kurkle/color", to: "https://ga.jspm.io/npm:@kurkle/color@0.3.4/dist/color.esm.js"

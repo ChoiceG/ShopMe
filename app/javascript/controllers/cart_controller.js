@@ -113,15 +113,29 @@ export default class CartController extends Controller {
     window.location.reload(); // Reload the page to update display
   }
 
-  // checkout(){
-  //   const cart = JSON.parse(localStorage.getItem("cart"))
-  //   const payload ={
+  // checkout() {
+  //   const cart = JSON.parse(localStorage.getItem("cart"));
+  //   const payload = {
   //     authenticity: "",
   //     cart: cart
+  //   };
+  
+  //   const csrfToken = document.querySelector("[name='csrf-token']").content;
+  //   const checkoutButton = document.getElementById("checkout-button");
+  //   const errorContainer = document.getElementById("errorContainer");
+  
+  //   // Disable the button and show processing text
+  //   if (checkoutButton) {
+  //     checkoutButton.disabled = true;
+  //     checkoutButton.innerText = "Processing...";
+  //     checkoutButton.classList.add("opacity-50", "cursor-not-allowed");
   //   }
-
-  //   const csrfToken = document.querySelector("[name='csrf-token']").content 
-
+  
+  //   // Clear any previous errors
+  //   if (errorContainer) {
+  //     errorContainer.innerHTML = "";
+  //   }
+  
   //   fetch("/checkout", {
   //     method: "POST",
   //     headers: {
@@ -129,21 +143,35 @@ export default class CartController extends Controller {
   //       "X-CSRF-TOKEN": csrfToken
   //     },
   //     body: JSON.stringify(payload)
-  //   }).then(response => {
-  //     if (response.ok) {
-  //       response.json().then(body => {
-  //         window.location.href = body.url
-  //       })
-  //     } else {
-  //       response.json().then(body => {
-  //         const errorEl = document.createElement("div")
-  //       errorEl.innerText = `There was an error processing your order. ${body.error}`
-  //       let errorContainer = document.getElementById("errorContainer")
-  //       errorContainer.appendChild(errorEl)
-  //       })
-  //     }
   //   })
-  // }
+  //     .then(response => {
+  //       if (response.ok) {
+  //         return response.json().then(body => {
+  //           window.location.href = body.url; // Redirect to Stripe checkout
+  //         });
+  //       } else {
+  //         return response.json().then(body => {
+  //           const errorEl = document.createElement("div");
+  //           errorEl.className = "text-red-600 mt-2 font-medium";
+  //           errorEl.innerText = `There was an error processing your order. ${body.error}`;
+  //           if (errorContainer) errorContainer.appendChild(errorEl);
+  //           throw new Error(body.error);
+  //         });
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.error("Checkout error:", error);
+  //     })
+  //     .finally(() => {
+  //       // Re-enable the button and reset the label in case of failure
+  //       if (checkoutButton) {
+  //         checkoutButton.disabled = false;
+  //         checkoutButton.innerText = "Checkout";
+  //         checkoutButton.classList.remove("opacity-50", "cursor-not-allowed");
+  //       }
+  //     });
+  // }  
+
   checkout() {
     const cart = JSON.parse(localStorage.getItem("cart"));
     const payload = {
@@ -155,14 +183,12 @@ export default class CartController extends Controller {
     const checkoutButton = document.getElementById("checkout-button");
     const errorContainer = document.getElementById("errorContainer");
   
-    // Disable the button and show processing text
     if (checkoutButton) {
       checkoutButton.disabled = true;
       checkoutButton.innerText = "Processing...";
       checkoutButton.classList.add("opacity-50", "cursor-not-allowed");
     }
   
-    // Clear any previous errors
     if (errorContainer) {
       errorContainer.innerHTML = "";
     }
@@ -178,7 +204,11 @@ export default class CartController extends Controller {
       .then(response => {
         if (response.ok) {
           return response.json().then(body => {
-            window.location.href = body.url; // Redirect to Stripe checkout
+            // ✅ Clear the cart on successful checkout
+            localStorage.removeItem("cart");
+  
+            // ✅ Redirect to Stripe or order success URL
+            window.location.href = body.url;
           });
         } else {
           return response.json().then(body => {
@@ -194,7 +224,6 @@ export default class CartController extends Controller {
         console.error("Checkout error:", error);
       })
       .finally(() => {
-        // Re-enable the button and reset the label in case of failure
         if (checkoutButton) {
           checkoutButton.disabled = false;
           checkoutButton.innerText = "Checkout";

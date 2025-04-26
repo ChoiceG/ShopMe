@@ -61,6 +61,17 @@ export default class ProductsController extends Controller {
     alert("Item added to cart!");
   }
 
+  // // This function runs when a user selects a size
+  // selectSize(e) {
+  //   // Set the `sizeValue` based on the clicked button's value
+  //   this.sizeValue = e.target.value;
+
+  //   // Display the selected size in the DOM (optional user feedback)
+  //   const selectedSizeEl = document.getElementById("selected-size");
+  //   if (selectedSizeEl) {
+  //     selectedSizeEl.innerText = `Selected Size: ${this.sizeValue}`;
+  //   }
+  // }
   // This function runs when a user selects a size
   selectSize(e) {
     // Set the `sizeValue` based on the clicked button's value
@@ -71,5 +82,35 @@ export default class ProductsController extends Controller {
     if (selectedSizeEl) {
       selectedSizeEl.innerText = `Selected Size: ${this.sizeValue}`;
     }
+
+    // Disable the size button if the stock is exhausted
+    this.updateSizeButtonsState();
+  }
+
+  // Helper function to check stock for all sizes and disable the exhausted ones
+  updateSizeButtonsState() {
+    // Get the available sizes for the current product
+    const product = this.productValue;  // Assume this.productValue contains the product data
+    const sizeButtons = document.querySelectorAll('[data-action="click->products#selectSize"]'); // Assuming buttons are marked with this action
+
+    if (!product || !product.sizes) return; // Ensure product and sizes exist
+
+    // Loop through all size buttons
+    sizeButtons.forEach(button => {
+      const size = button.value;  // Assuming each button has a `value` attribute set to the size name
+
+      // Find the stock for this size
+      const sizeData = product.sizes.find(s => s.name === size);
+      
+      if (sizeData && sizeData.quantity <= 0) {
+        // If stock is 0 or less, disable the button
+        button.disabled = true;
+        button.classList.add('disabled'); // Optional: Add a disabled class for styling
+      } else {
+        // Enable the button if stock is available
+        button.disabled = false;
+        button.classList.remove('disabled'); // Remove disabled class
+      }
+    });
   }
 }

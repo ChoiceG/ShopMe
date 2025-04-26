@@ -1,3 +1,5 @@
+<%
+=begin%>
 <div class="min-h-screen flex justify-center gap-20 py-10">
     <div class="flex flex-col justify-start max-w-lg">
         <div class="flex flex-wrap">
@@ -33,6 +35,64 @@
         <div id="selected-size"></div>
         <label for="quantity">Quantity:</label>
         <input type="number" min="1" value="1" id="quantity-input" data-products-target="quantity" class="border px-2 py-1 rounded w-20 ml-2" /><br>
+        <button data-action="click->products#addToCart" class="bg-indigo-600 text-white font-semibold py-3 px-6 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
+            Add to Cart
+        </button>
+    </div>
+</div>
+<%
+=end%>
+
+<div class="min-h-screen flex justify-center gap-20 py-10">
+    <!-- 🖼 Image Carousel -->
+    <div data-controller="carousel" class="relative w-[500px] h-[500px] overflow-hidden rounded-lg shadow-md">
+        <% @product.images.each_with_index do |image, index| %>
+        <%= image_tag image.variant(resize_to_fill: [800, 800]),
+          class: "absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out #{index == 0 ? 'opacity-100' : 'opacity-0'}",
+          data: { carousel_target: "slide" } %>
+        <% end %>
+
+        <!-- Navigation buttons -->
+        <button data-action="click->carousel#prev" class="absolute top-1/2 left-3 transform -translate-y-1/2 bg-white/80 hover:bg-white rounded-full px-3 py-1 shadow text-xl font-bold">
+            ‹
+        </button>
+        <button data-action="click->carousel#next" class="absolute top-1/2 right-3 transform -translate-y-1/2 bg-white/80 hover:bg-white rounded-full px-3 py-1 shadow text-xl font-bold">
+            ›
+        </button>
+    </div>
+
+    <!-- 📦 Product Info & Add to Cart -->
+    <div data-controller="products" data-products-product-value='<%= raw @product_json %>' class="flex flex-col items-start max-w-sm">
+        <div class="mb-8">
+            <h1 class="font-bold text-4xl uppercase mb-4">
+                <%= @product.name %>
+            </h1>
+            <p class="text-2xl mb-2">₦<%= number_with_delimiter(@product.price, delimiter: ',', precision: 0) %></p>
+            <p class="text-md leading-relaxed mb-6"><%= @product.description %></p>
+        </div>
+
+        <div class="mb-8">
+            <p class="uppercase text-lg mb-2">Size</p>
+            <div class="flex flex-wrap gap-2">
+                <% @product.stocks.each do |stock| %>
+                <% if stock.amount > 0 %>
+                <button data-action="click->products#selectSize" value="<%= stock.size %>" class="bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50">
+                    <%= stock.size %>
+                </button>
+                <% else %>
+                <button disabled value="<%= stock.size %>" class="bg-gray-400 text-white font-semibold py-2 px-4 rounded opacity-60 cursor-not-allowed">
+                    <%= stock.size %>
+                </button>
+                <% end %>
+                <% end %>
+            </div>
+        </div>
+
+        <div id="selected-size" class="mb-4 text-sm font-medium text-gray-700"></div>
+
+        <label for="quantity" class="font-medium">Quantity:</label>
+        <input type="number" min="1" value="1" id="quantity-input" data-products-target="quantity" class="border px-2 py-1 rounded w-20 ml-2 mb-4" />
+
         <button data-action="click->products#addToCart" class="bg-indigo-600 text-white font-semibold py-3 px-6 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
             Add to Cart
         </button>

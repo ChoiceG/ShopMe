@@ -1,0 +1,65 @@
+<div class="min-h-screen flex flex-col justify-between bg-white px-6 py-8 text-gray-800 font-sans">
+    <main>
+        <h1 class="text-3xl font-bold mb-6 border-b pb-2">Order Receipt</h1>
+
+        <div class="mb-6 space-y-2">
+            <p><strong>Order ID:</strong> <%= @order.id %></p>
+            <p><strong>Customer Email:</strong> <%= @order.customer_email %></p>
+            <p><strong>Order Date:</strong> <%= @order.created_at.strftime('%B %d, %Y') %></p>
+            <p><strong>Expected Delivery:</strong> <%= @expected_delivery.strftime('%B %d, %Y') %></p>
+        </div>
+
+        <h2 class="text-2xl font-semibold mb-4">Items Ordered</h2>
+        <div class="overflow-x-auto mb-8">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Image</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Product</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Size</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Quantity</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Unit Price</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Total</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <% total_price = 0 %>
+                    <% @order.order_products.each do |op| %>
+                    <% product = op.product %>
+                    <% item_total = product.price * op.quantity %>
+                    <% total_price += item_total %>
+                    <tr>
+                        <td class="px-6 py-4">
+                            <% if product.images.attached? %>
+                            <%= link_to product_path(product) do %>
+                            <%= image_tag product.images.first.variant(:thumbnail).processed, alt: product.name, class: "w-12 h-12 object-cover rounded" %>
+                            <% end %>
+                            <% else %>
+                            <%= image_tag "logo.png", alt: "Default Image", class: "w-12 h-12 object-cover rounded" %>
+                            <% end %>
+                        </td>
+                        <td class="px-6 py-4">
+                            <%= link_to product.name, product_path(product), class: "text-blue-600 hover:underline font-medium" %>
+                        </td>
+                        <td class="px-6 py-4"><%= op.size %></td>
+                        <td class="px-6 py-4"><%= op.quantity %></td>
+                        <td class="px-6 py-4">₦<%= number_with_delimiter(product.price) %></td>
+                        <td class="px-6 py-4">₦<%= number_with_delimiter(item_total) %></td>
+                    </tr>
+                    <% end %>
+                </tbody>
+                <tfoot class="bg-gray-50">
+                    <tr>
+                        <td colspan="5" class="text-right px-6 py-4 font-bold">Total:</td>
+                        <td class="px-6 py-4 font-bold">₦<%= number_with_delimiter(total_price) %></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </main>
+
+    <footer class="border-t pt-4 text-center text-sm text-gray-600">
+        <p>Thank you for shopping with us!</p>
+        <p>&copy; <%= Time.current.year %> ShopMe. All rights reserved.</p>
+    </footer>
+</div>

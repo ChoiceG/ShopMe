@@ -8,12 +8,14 @@ import DashboardController from "controllers/dashboard_controller"; // Correct i
 import ProductsController from "controllers/products_controller"; // Correct import using the importmap name
 import CartController from "controllers/cart_controller";
 import AlertController from "controllers/alert_controller";
+import CarouselController from "controllers/carousel_controller";
 
 const application = Application.start();
 application.register("dashboard", DashboardController);
 application.register("products", ProductsController);
 application.register("cart", CartController);
 application.register("alert", AlertController);
+application.register("carousel", CarouselController)
 application.debug = true;
 window.Stimulus = application;
 window.application = application;

@@ -1,4 +1,6 @@
-<h1>Category Show Page</h1>
+<%
+=begin%>
+<h1>ALL PRODUCTS IN THIS CATEGORY</h1>
 <div class="min-h-screen flex justify-center">
     <div class="flex flex-wrap flex-col mt-6">
         <h2 class="text-lg text-gray-800">Filter</h2>
@@ -19,4 +21,84 @@
         <% end %>
         <% end %>
     </div>
+</div>
+<%
+=end%>
+
+<%
+=begin%>
+<h1 class="text-3xl font-bold text-center text-gray-900 mt-10 mb-6">Products</h1>
+
+<div class="min-h-screen flex flex-col items-center px-4">
+    <%= form_with url: category_path(@category), method: :get do |f| %>
+    <%= f.number_field :min, placeholder: "Min Price", class: "border border-gray-800 rounded-md p-2 w-32" %>
+    <%= f.number_field :max, placeholder: "Max Price", class: "border border-gray-800 rounded-md p-2 w-32" %>
+    <%= f.submit "Filter", class: "bg-blue-500 text-white px-4 py-2 mt-2 rounded-md font-semibold cursor-pointer" %>
+    <%= f.submit "Clear", class: "bg-red-500 text-white rounded-md p-2 mt-2 cursor-pointer" %>
+    <% end %><br>
+    <% if @products.empty? %>
+    <p class="text-xl text-gray-700 mt-10">No products found.</p>
+    <% else %>
+    <div class="flex flex-wrap justify-center gap-8 mt-6 w-full max-w-7xl">
+        <% @products.each do |product| %>
+        <%= link_to product_path(product), class: "block w-60 bg-white rounded-lg shadow hover:shadow-xl transform hover:scale-105 transition duration-300" do %>
+        <div class="w-full h-60 bg-gray-100 flex items-center justify-center overflow-hidden rounded-t-lg">
+            <% if product.images.first %>
+            <%= image_tag(product.images.first.variant(:medium), class: "object-cover w-full h-full") %>
+            <% else %>
+            <%= image_tag("http://via.placeholder.com/250", class: "object-cover w-full h-full") %>
+            <% end %>
+        </div>
+        <div class="p-4 text-center">
+            <h3 class="text-md font-semibold text-gray-800"><%= product.name %></h3>
+        </div>
+        <% end %>
+        <% end %>
+    </div>
+    <% end %>
+</div>
+<%
+=end%>
+
+
+<h1 class="text-3xl font-bold text-center text-gray-900 mt-10 mb-6">Products</h1>
+
+<div class="flex flex-col md:flex-row min-h-screen px-4 max-w-7xl mx-auto w-full gap-8">
+    <!-- Sidebar Filter Section -->
+    <aside class="w-full md:w-64">
+        <div class="bg-white p-4 rounded-lg shadow-md">
+            <h2 class="text-xl font-semibold mb-4">Filter by Price</h2>
+            <%= form_with url: category_path(@category), method: :get, class: "flex flex-col space-y-3" do |f| %>
+            <%= f.number_field :min, placeholder: "Min Price", class: "border border-gray-300 rounded-md p-2" %>
+            <%= f.number_field :max, placeholder: "Max Price", class: "border border-gray-300 rounded-md p-2" %>
+            <%= f.submit "Filter", class: "bg-blue-600 text-white px-4 py-2 rounded-md font-semibold" %>
+            <%= link_to "Clear", category_path(@category), class: "bg-red-500 text-white px-4 py-2 rounded-md font-semibold text-center" %>
+            <% end %>
+        </div>
+    </aside>
+
+    <!-- Product Listing Section -->
+    <section class="flex-grow w-full">
+        <% if @products.empty? %>
+        <p class="text-xl text-gray-700 mt-10 text-center">No products found.</p>
+        <% else %>
+        <!-- Using grid with specific column setup for different screen sizes -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
+            <% @products.each do |product| %>
+            <%= link_to product_path(product), class: "block w-full bg-white rounded-lg shadow hover:shadow-xl transform hover:scale-105 transition duration-300" do %>
+            <div class="w-full h-60 bg-gray-100 flex items-center justify-center overflow-hidden rounded-t-lg">
+                <% if product.images.first %>
+                <%= image_tag(product.images.first.variant(:medium), class: "object-cover w-full h-full") %>
+                <% else %>
+                <%= image_tag("http://via.placeholder.com/250", class: "object-cover w-full h-full") %>
+                <% end %>
+            </div>
+            <div class="p-4 text-center">
+                <h3 class="text-md font-semibold text-gray-800"><%= product.name %></h3>
+            </div>
+            <% end %>
+            <% end %>
+        </div>
+        <% end %>
+    </section>
 </div>
