@@ -5,6 +5,11 @@ Rails.application.routes.draw do
       resources :stocks
     end
     resources :categories
+    resources :testimonials, only: [:index] do
+      member do
+        patch :approve
+      end
+    end
   end
   
   # devise_for :admins
@@ -48,6 +53,10 @@ Rails.application.routes.draw do
       get :receipt
     end
   end
+
+  # Public routes for testimonials (new and create)
+  resources :testimonials, only: [:new, :create]
+
   
   # Keep this route so Stripe redirects here
   # get "/checkout/success", to: "checkouts#success"

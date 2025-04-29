@@ -71,6 +71,15 @@ class AdminController < ApplicationController
     # fetch last five (5) unfulfilled orders
     @orders = Order.where(fulfilled: false).order(created_at: :desc).take(5)
 
+    # Fetching testimonials for the dashboard
+    @testimonials = Testimonial.all  # This line ensures testimonials are loaded
+
+    def approve_testimonial
+      @testimonial = Testimonial.find(params[:id])
+      @testimonial.update(approved: true)  # Approve the testimonial
+      redirect_to admin_index_path, notice: "Testimonial approved successfully!"
+    end
+
     # add a hash called quick_stats
     today_start_of_day_utc = Time.zone.now.utc.beginning_of_day
     today_end_of_day_utc = Time.zone.now.utc.end_of_day
