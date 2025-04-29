@@ -1,3 +1,5 @@
+<%
+=begin%>
 <nav class="fixed w-full top-0 bg-gray-100 z-10 py-4">
     <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
         <div class="relative flex items-center justify-between h-16">
@@ -22,6 +24,52 @@
                         <% end %>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</nav>
+<%
+=end%>
+
+<nav class="fixed w-full top-0 bg-gray-100 z-10 py-4">
+    <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+        <div class="relative flex items-center justify-between h-16">
+            <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-between">
+
+                <!-- Left menu -->
+                <div class="hidden sm:flex items-center justify-center">
+                    <div class="flex space-x-10">
+                        <%= link_to 'Shop', root_path, class: 'text-gray-500 hover:underline py-2 rounded-md text-md font-medium' %>
+                    </div>
+                </div>
+
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <%= link_to root_path do %>
+                    <%= image_tag 'logo1.jpg', class: 'block lg:hidden h-20 w-auto' %>
+                    <% end %>
+                    <%= link_to root_path do %>
+                    <%= image_tag 'logo1.jpg', class: 'hidden lg:block h-20 w-auto' %>
+                    <% end %>
+                </div>
+
+                <!-- Right menu -->
+                <div class="hidden sm:flex sml:ml-6 items-center justify-center">
+                    <div class="flex space-x-10 items-center">
+                        <%= link_to cart_path, class: "text-gray-500 hover:underline py-2 rounded-md text-md font-medium" do %>
+                        <i class="fa fa-shopping-cart"></i>
+                        <% end %>
+
+                        <% if current_user %>
+                        <span class="text-gray-700 text-sm">Hello, <%= current_user.name.present? ? current_user.name : current_user.email %></span>
+                        <%= button_to 'Logout', destroy_user_session_path, method: :delete, class: 'text-gray-500 hover:underline py-2 text-md font-medium cursor-pointer' %>
+                        <% else %>
+                        <%= link_to 'Sign Up', new_user_registration_path, class: 'text-gray-500 hover:underline py-2 text-md font-medium' %>
+                        <%= link_to 'Sign In', new_user_session_path, class: 'text-gray-500 hover:underline py-2 text-md font-medium' %>
+                        <% end %>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

@@ -9,6 +9,12 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <!-- Check if user is logged in -->
+    <meta name="current-user" content="<%= user_signed_in? %>">
+
+    <!-- Check if user is signed up (i.e., has an account but might not be logged in) -->
+    <meta name="signed-up" content="<%= user_signed_in? || current_user %>">
+
     <%= yield :head %>
 
     <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>

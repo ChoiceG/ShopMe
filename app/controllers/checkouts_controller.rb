@@ -96,6 +96,7 @@
 
 class CheckoutsController < ApplicationController
   require "stripe"
+  before_action :authenticate_user!, only: [:create]
 
   def create
     Stripe.api_key = ENV["stripe_api_key"]
