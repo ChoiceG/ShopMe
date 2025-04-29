@@ -1,0 +1,38 @@
+<div class="min-h-screen bg-white px-6 py-8 text-gray-800">
+    <h1 class="text-2xl font-bold mb-6">Your Order History</h1>
+
+    <% if @orders.any? %>
+    <div class="space-y-6">
+        <% @orders.each do |order| %>
+        <div class="p-6 bg-gray-100 rounded shadow">
+            <div class="flex justify-between items-center mb-2">
+                <div>
+                    <p class="font-semibold">Order #<%= order.id %></p>
+                    <p class="text-sm text-gray-600">Date: <%= order.created_at.strftime("%B %d, %Y") %></p>
+                </div>
+                <%= link_to "View Receipt", receipt_order_path(order), class: "text-blue-600 hover:underline text-sm font-medium" %>
+            </div>
+
+            <div class="text-sm text-gray-700">
+                <% order.order_products.each do |op| %>
+                <div class="flex items-center space-x-4 py-1 border-b border-gray-200 last:border-0">
+                    <% if op.product.images.attached? %>
+                    <%= image_tag op.product.images.first.variant(:thumbnail), class: "w-10 h-10 object-cover rounded" %>
+                    <% else %>
+                    <%= image_tag "logo.png", class: "w-10 h-10 object-cover rounded" %>
+                    <% end %>
+                    <span><%= op.product.name %> (x<%= op.quantity %>)</span>
+                </div>
+                <% end %>
+            </div>
+
+            <div class="mt-2 text-right font-semibold">
+                Total: ₦<%= number_with_delimiter(order.total) %>
+            </div>
+        </div>
+        <% end %>
+    </div>
+    <% else %>
+    <p class="text-gray-600">You haven’t placed any orders yet.</p>
+    <% end %>
+</div>

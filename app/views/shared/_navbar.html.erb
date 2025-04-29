@@ -54,23 +54,44 @@
                 </div>
 
                 <!-- Right menu -->
-                <div class="hidden sm:flex sml:ml-6 items-center justify-center">
-                    <div class="flex space-x-10 items-center">
-                        <%= link_to cart_path, class: "text-gray-500 hover:underline py-2 rounded-md text-md font-medium" do %>
-                        <i class="fa fa-shopping-cart"></i>
-                        <% end %>
+                <div class="hidden sm:flex sml:ml-6 items-center justify-center relative" data-controller="user-menu">
+                    <button data-action="click->user-menu#toggle" class="flex items-center space-x-2 text-gray-700 hover:text-gray-900 focus:outline-none">
+                        <span><%= current_user ? (current_user.name.presence || current_user.email) : "Account" %></span>
+                        <i class="fa fa-caret-down"></i>
+                    </button>
 
-                        <% if current_user %>
-                        <span class="text-gray-700 text-sm">Hello, <%= current_user.name.present? ? current_user.name : current_user.email %></span>
-                        <%= button_to 'Logout', destroy_user_session_path, method: :delete, class: 'text-gray-500 hover:underline py-2 text-md font-medium cursor-pointer' %>
-                        <% else %>
-                        <%= link_to 'Sign Up', new_user_registration_path, class: 'text-gray-500 hover:underline py-2 text-md font-medium' %>
-                        <%= link_to 'Sign In', new_user_session_path, class: 'text-gray-500 hover:underline py-2 text-md font-medium' %>
-                        <% end %>
+                    <div data-user-menu-target="menu" class="absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg z-50 hidden">
+                        <ul class="py-1 text-sm text-gray-700">
+                            <li>
+                                <%= link_to cart_path, class: "block px-4 py-2 hover:bg-gray-100" do %>
+                                🛒 Cart
+                                <% end %>
+                            </li>
+
+                            <% if current_user %>
+                            <li>
+                                <%= link_to "My Orders", orders_path, class: "block px-4 py-2 hover:bg-gray-100" %>
+                            </li>
+                            <li>
+                                <%= button_to "Logout", destroy_user_session_path, method: :delete,
+                                    class: "block w-full text-left px-4 py-2 hover:bg-gray-100 cursor-pointer",
+                                    form: { "data-turbo-confirm": "Are you sure you want to logout?" } %>
+                            </li>
+                            <% else %>
+                            <li>
+                                <%= link_to "Sign In", new_user_session_path, class: "block px-4 py-2 hover:bg-gray-100" %>
+                            </li>
+                            <li>
+                                <%= link_to "Sign Up", new_user_registration_path, class: "block px-4 py-2 hover:bg-gray-100" %>
+                            </li>
+                            <% end %>
+                        </ul>
                     </div>
                 </div>
 
             </div>
+
         </div>
+    </div>
     </div>
 </nav>

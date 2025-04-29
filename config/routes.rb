@@ -49,7 +49,7 @@ Rails.application.routes.draw do
 
   post "/webhooks/stripe", to: "webhooks#stripe"
 
-  resources :orders, only: [] do
+  resources :orders, only: [:index, :show] do
     member do
       get :receipt
     end

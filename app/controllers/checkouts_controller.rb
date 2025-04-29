@@ -131,10 +131,16 @@ class CheckoutsController < ApplicationController
     end
 
     # Create local Order in DB
+    # order = Order.create!(
+    #   customer_email: params[:email],
+    #   total: cart.sum { |item| item["price"].to_i * item["quantity"].to_i },
+    #   fulfilled: false
+    # )
     order = Order.create!(
-      customer_email: params[:email],
-      total: cart.sum { |item| item["price"].to_i * item["quantity"].to_i },
-      fulfilled: false
+    user: current_user,  # 👈 assign the currently logged-in user
+    customer_email: current_user.email,
+    total: cart.sum { |item| item["price"].to_i * item["quantity"].to_i },
+    fulfilled: false
     )
 
     cart.each do |item|
@@ -142,7 +148,7 @@ class CheckoutsController < ApplicationController
       product_id: item["id"],
       size: item["size"],
       quantity: item["quantity"],
-      # price: item["price"]
+      price: item["price"].to_i
     )
     end
 
