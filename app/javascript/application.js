@@ -1,5 +1,5 @@
 import "@hotwired/turbo-rails";
-// import "controllers";
+import "controllers";
 // import 'font-awesome/css/all.css';
 // import "cocoon-js";
 
