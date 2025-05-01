@@ -1,4 +1,4 @@
-class Admin::CategoriesController < AdminController
+class Admin::CategoriesController < Admin::AdminController
   before_action :set_admin_category, only: %i[ show edit update destroy ]
 
   # # GET /admin/categories or /admin/categories.json

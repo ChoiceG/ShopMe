@@ -1,4 +1,4 @@
-class Admin::StocksController < AdminController
+class Admin::StocksController < Admin::AdminController
   before_action :set_admin_stock, only: %i[ show edit update destroy ]
 
   # GET /admin/stocks or /admin/stocks.json

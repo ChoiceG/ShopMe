@@ -1,4 +1,4 @@
-class Admin::OrdersController < AdminController
+class Admin::OrdersController < Admin::AdminController
   before_action :set_admin_order, only: %i[ show edit update destroy ]
 
   # GET /admin/orders or /admin/orders.json
