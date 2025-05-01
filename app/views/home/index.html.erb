@@ -40,7 +40,7 @@
 </div>
 <% end %>
 
-
+<% if current_user && current_user.orders.where(fulfilled: true).exists? %>
 <div class="max-w-xl mx-auto mt-12 mb-20" data-controller="dropdown">
     <!-- Toggle Button -->
     <button data-action="click->dropdown#toggle" class="w-full bg-indigo-600 text-white text-sm font-medium px-5 py-3 rounded hover:bg-indigo-700 transition duration-150">
@@ -51,7 +51,11 @@
     <div data-dropdown-target="content" class="mt-4 bg-white border border-gray-200 rounded-lg shadow-sm p-6 hidden transition-all duration-300">
         <h3 class="text-xl font-semibold mb-4 text-gray-800 text-center">Leave a Testimonial</h3>
 
-        <%= form_with model: @testimonial, url: testimonials_path, local: true do |f| %>
+        <% if @order %>
+        <%= form_with model: @testimonial, url: testimonials_path(order_id: @order.id), local: true do |f| %>
+        <%= f.hidden_field :order_id, value: @order.id %>
+        <!-- Hidden field for order ID -->
+
         <div class="mb-3">
             <%= f.label :name, class: "block text-sm font-medium text-gray-700" %>
             <%= f.text_field :name, class: "mt-1 w-full px-3 py-2 border border-gray-300 rounded text-sm focus:ring-indigo-500 focus:border-indigo-500" %>
@@ -66,8 +70,18 @@
             <%= f.submit "Submit", class: "inline-block bg-indigo-600 text-white text-sm font-medium px-5 py-2 rounded hover:bg-indigo-700 transition duration-150" %>
         </div>
         <% end %>
+        <% else %>
+        <p>No fulfilled orders available for a testimonial.</p>
+        <% end %>
     </div>
 </div>
+<% else %>
+<!-- Message for users who can't leave testimonials -->
+<div class="max-w-xl mx-auto mt-12 mb-20 text-center text-gray-600 text-sm">
+    <p>You must be logged in and have a completed order to leave a testimonial.</p>
+</div>
+<% end %>
+
 
 
 <div class="bg-gray-500 text-white my-10 text-center py-20">

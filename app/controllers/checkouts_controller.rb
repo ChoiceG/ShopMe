@@ -94,9 +94,96 @@
 #     end
 # end
 
+# class CheckoutsController < ApplicationController
+#   require "stripe"
+#   before_action :authenticate_user!, only: [ :create ]
+
+#   def create
+#     Stripe.api_key = ENV["stripe_api_key"]
+#     cart = params[:cart]
+
+#     line_items = cart.map do |item|
+#       product = Product.find(item["id"])
+#       product_stock = product.stocks.find { |ps| ps.size == item["size"] }
+
+#       if product_stock.amount < item["quantity"].to_i
+#         render json: {
+#           error: "Not enough stock for #{product.name} in size #{item["size"]}. Only #{product_stock.amount} left."
+#         }, status: 400
+#         return
+#       end
+
+#       {
+#         quantity: item["quantity"].to_i,
+#         price_data: {
+#           currency: "ngn",
+#           unit_amount: item["price"].to_i * 100,
+#           product_data: {
+#             name: item["name"],
+#             metadata: {
+#               product_id: product.id,
+#               size: item["size"],
+#               product_stock_id: product_stock.id
+#             }
+#           }
+#         }
+#       }
+#     end
+
+#     # Create local Order in DB
+#     # order = Order.create!(
+#     #   customer_email: params[:email],
+#     #   total: cart.sum { |item| item["price"].to_i * item["quantity"].to_i },
+#     #   fulfilled: false
+#     # )
+#     order = Order.create!(
+#     user: current_user,  # 👈 assign the currently logged-in user
+#     customer_email: current_user.email,
+#     total: cart.sum { |item| item["price"].to_i * item["quantity"].to_i },
+#     fulfilled: false
+#     )
+
+#     cart.each do |item|
+#       order.order_products.create!(
+#       product_id: item["id"],
+#       size: item["size"],
+#       quantity: item["quantity"],
+#       price: item["price"].to_i
+#     )
+#     end
+
+#     # Create Stripe session
+#     session = Stripe::Checkout::Session.create({
+#       payment_method_types: [ "card" ],
+#       line_items: line_items,
+#       mode: "payment",
+#       success_url: "#{root_url}checkout/success?order_id=#{order.id}&session_id={CHECKOUT_SESSION_ID}",
+#       cancel_url: "#{root_url}checkout/cancel",
+#       shipping_address_collection: {
+#         allowed_countries: [ "NG" ]
+#       }
+#     })
+
+#     # Render Stripe URL and pass order_id back to frontend
+#     render json: { url: session.url }
+#   end
+
+#   def success
+#     order_id = params[:order_id]
+#     flash[:notice] = "Payment was successful! Your order is being processed."
+#     redirect_to receipt_order_path(order_id) # This assumes you've set up the receipt route
+#   end
+
+#   def cancel
+#     flash[:alert] = "Payment was canceled. Please try again."
+#     redirect_to root_path
+#   end
+# end
+
+# TO FIX DOUBLE ORDER CREATION FOR WEBHOOK AND CHECKOUT
 class CheckoutsController < ApplicationController
   require "stripe"
-  before_action :authenticate_user!, only: [:create]
+  before_action :authenticate_user!, only: [ :create ]
 
   def create
     Stripe.api_key = ENV["stripe_api_key"]
@@ -117,7 +204,7 @@ class CheckoutsController < ApplicationController
         quantity: item["quantity"].to_i,
         price_data: {
           currency: "ngn",
-          unit_amount: item["price"].to_i * 100,
+          unit_amount: item["price"].to_i * 100,  # price in kobo
           product_data: {
             name: item["name"],
             metadata: {
@@ -130,48 +217,32 @@ class CheckoutsController < ApplicationController
       }
     end
 
-    # Create local Order in DB
-    # order = Order.create!(
-    #   customer_email: params[:email],
-    #   total: cart.sum { |item| item["price"].to_i * item["quantity"].to_i },
-    #   fulfilled: false
-    # )
-    order = Order.create!(
-    user: current_user,  # 👈 assign the currently logged-in user
-    customer_email: current_user.email,
-    total: cart.sum { |item| item["price"].to_i * item["quantity"].to_i },
-    fulfilled: false
-    )
-
-    cart.each do |item|
-      order.order_products.create!(
-      product_id: item["id"],
-      size: item["size"],
-      quantity: item["quantity"],
-      price: item["price"].to_i
-    )
-    end
+    # ⚠️ Removed local order creation — it will now be created in the Stripe webhook
+    # order = Order.create!(...)
+    # cart.each { order.order_products.create!(...) }
 
     # Create Stripe session
     session = Stripe::Checkout::Session.create({
-      payment_method_types: ["card"],
+      payment_method_types: [ "card" ],
       line_items: line_items,
       mode: "payment",
-      success_url: "#{root_url}checkout/success?order_id=#{order.id}&session_id={CHECKOUT_SESSION_ID}",
+      success_url: "#{root_url}checkout/success?session_id={CHECKOUT_SESSION_ID}",
       cancel_url: "#{root_url}checkout/cancel",
       shipping_address_collection: {
-        allowed_countries: ["NG"]
+        allowed_countries: [ "NG" ]
+      },
+      metadata: {
+        user_id: current_user.id,
+        cart: cart.to_json  # 👈 pass cart along for the webhook to rebuild the order
       }
     })
 
-    # Render Stripe URL and pass order_id back to frontend
     render json: { url: session.url }
   end
 
   def success
-    order_id = params[:order_id]
     flash[:notice] = "Payment was successful! Your order is being processed."
-    redirect_to receipt_order_path(order_id) # This assumes you've set up the receipt route
+    redirect_to orders_path  # or wherever you show receipts
   end
 
   def cancel

@@ -32,7 +32,7 @@
                     <strong>Total:</strong>
                 </td>
                 <td class="px-6 py-4">
-                    <%= number_to_currency(order.total_in_naira, unit: "₦", delimiter: ",") %>
+                    <%= number_to_currency(order.display_total, unit: "₦", delimiter: ",") %>
                 </td>
             </tr>
             <tr>

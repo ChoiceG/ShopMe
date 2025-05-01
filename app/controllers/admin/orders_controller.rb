@@ -6,7 +6,7 @@ class Admin::OrdersController < AdminController
     # Using pagynation to set set the orders index page
     @not_fulfilled_pagy, @not_fulfilled_orders = pagy(Order.where(fulfilled: false).order(created_at: :asc))
     @fulfilled_pagy, @fulfilled_orders = pagy(Order.where(fulfilled: true).order(created_at: :asc), page_param: :page_fulfilled)
-    
+
     # @admin_orders = Order.all
     # @not_fulfilled_orders = Order.where(fulfilled: false).order(created_at: :asc)
     # @fulfilled_orders = Order.where(fulfilled: true).order(created_at: :asc)

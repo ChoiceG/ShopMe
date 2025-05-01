@@ -61,7 +61,7 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap"><%= order.customer_email %></td>
                         <td class="px-6 py-4 whitespace-nowrap"><%= order.created_at.strftime("%B %d, %Y %H:%M") %></td>
-                        <td class="px-6 py-4 whitespace-nowrap"><%= number_to_currency(order.total_in_naira, unit: "₦", delimiter: ",") %></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><%= number_to_currency(order.display_total, unit: "₦", delimiter: ",") %></td>
                     </tr>
                     <% end %>
                 </tbody>

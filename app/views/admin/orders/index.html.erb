@@ -35,7 +35,7 @@
                         <%= order.fulfilled %>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-gray-800 font-semibold">
-                        <%= number_to_currency(order.total_in_naira, unit: "₦", delimiter: ",") %>
+                        <%= number_to_currency(order.display_total, unit: "₦", delimiter: ",") %>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-gray-600">
                         <%= order.address %>
@@ -78,7 +78,7 @@
                         <%= order.fulfilled %>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-gray-800 font-semibold">
-                        <%= number_to_currency(order.total_in_naira, unit: "₦", delimiter: ",") %>
+                        <%= number_to_currency(order.display_total, unit: "₦", delimiter: ",") %>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-gray-600">
                         <%= order.address %>
