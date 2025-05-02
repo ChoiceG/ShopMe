@@ -29,6 +29,8 @@ gem "stripe"
 gem "figaro"
 # Use to set pagination
 gem "pagy"
+# Use for production storage
+gem 'aws-sdk-s3'
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
