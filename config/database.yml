@@ -86,7 +86,7 @@ production:
     <<: *default
     database: shop_me_production
     url: <%= ENV["DATABASE_URL"] %>
-    password: <%= ENV["SHOP_ME_DATABASE_PASSWORD"] %>
+    password: "@White190"
   cache:
     <<: *primary_production
     database: shop_me_production_cache

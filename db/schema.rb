@@ -97,8 +97,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_02_112159) do
   end
 
   create_table "solid_queue_jobs", force: :cascade do |t|
-    t.string "job_class"
-    t.text "args"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
