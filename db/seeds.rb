@@ -9,15 +9,15 @@
 #   end
 
 # db/seeds.rb
+
 admin_email = 'admin@example.com'
-unless User.exists?(email: admin_email)
-  User.create!(
+unless Admin.exists?(email: admin_email)
+  Admin.create!(
     email: admin_email,
     password: 'securepassword',
-    password_confirmation: 'securepassword',
-    admin: true
+    password_confirmation: 'securepassword'
   )
-  puts "✅ Admin user created"
+  puts "✅ Admin account created"
 else
-  puts "⚠️ Admin user already exists"
+  puts "⚠️ Admin account already exists"
 end
