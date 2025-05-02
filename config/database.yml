@@ -23,7 +23,6 @@ default: &default
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
-
 development:
   <<: *default
   database: shop_me_development
@@ -87,7 +86,7 @@ production:
     <<: *default
     database: shop_me_production
     url: <%= ENV["DATABASE_URL"] %>
-    password: "@White190"
+    password: <%= ENV["SHOP_ME_DATABASE_PASSWORD"] %>
   cache:
     <<: *primary_production
     database: shop_me_production_cache
