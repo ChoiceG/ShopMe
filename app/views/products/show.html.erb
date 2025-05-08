@@ -103,61 +103,60 @@
     </div>
 </div>
 <%
-=end%>
+=end%><nav class="fixed w-full top-0 bg-gray-100 z-50 py-4">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="relative flex items-center justify-between h-16">
 
-<div class="min-h-screen flex flex-col lg:flex-row items-center lg:items-start justify-center gap-10 px-4 py-10">
-    <!-- 🖼 Image Carousel -->
-    <div data-controller="carousel" class="relative w-full max-w-[400px] h-[400px] sm:max-w-[500px] sm:h-[500px] overflow-hidden rounded-lg shadow-md mb-8 lg:mb-0">
-        <% @product.images.each_with_index do |image, index| %>
-        <%= image_tag image.variant(resize_to_fill: [800, 800]),
-        class: "absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out #{index == 0 ? 'opacity-100' : 'opacity-0'}",
-        data: { carousel_target: "slide" } %>
-        <% end %>
-
-        <!-- Navigation buttons -->
-        <button data-action="click->carousel#prev" class="absolute top-1/2 left-3 transform -translate-y-1/2 bg-white/80 hover:bg-white rounded-full px-3 py-1 shadow text-xl font-bold">
-            ‹
-        </button>
-        <button data-action="click->carousel#next" class="absolute top-1/2 right-3 transform -translate-y-1/2 bg-white/80 hover:bg-white rounded-full px-3 py-1 shadow text-xl font-bold">
-            ›
-        </button>
-    </div>
-
-    <!-- 📦 Product Info & Add to Cart -->
-    <div data-controller="products" data-products-product-value='<%= raw @product_json %>' class="w-full max-w-md flex flex-col">
-        <!-- Back to Categories link -->
-        <%= link_to 'Back to Categories', category_path(@product.category_id), class: 'text-indigo-600 hover:text-indigo-800 mb-4' %>
-
-        <div class="mb-8">
-            <h1 class="font-bold text-3xl sm:text-4xl uppercase mb-4"><%= @product.name %></h1>
-            <p class="text-xl sm:text-2xl mb-2">₦<%= number_with_delimiter(@product.price, delimiter: ',', precision: 0) %></p>
-            <p class="text-sm sm:text-md leading-relaxed mb-6"><%= @product.description %></p>
-        </div>
-
-        <div class="mb-8">
-            <p class="uppercase text-md mb-2">Size</p>
-            <div class="flex flex-wrap gap-2">
-                <% @product.stocks.each do |stock| %>
-                <% if stock.amount > 0 %>
-                <button data-action="click->products#selectSize" value="<%= stock.size %>" class="bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50">
-                    <%= stock.size %>
+            <!-- 🍔 Mobile Menu Button -->
+            <div class="flex sm:hidden">
+                <button type="button" data-action="click->mobile-nav#toggle" class="inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-black hover:bg-gray-200 focus:outline-none z-50">
+                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
                 </button>
-                <% else %>
-                <button disabled value="<%= stock.size %>" class="bg-gray-400 text-white font-semibold py-2 px-4 rounded opacity-60 cursor-not-allowed">
-                    <%= stock.size %>
-                </button>
-                <% end %>
+            </div>
+
+            <!-- 🏷 Logo: centered using absolute + left-1/2 transform -->
+            <div class="absolute inset-x-0 flex justify-center items-center pointer-events-none">
+                <%= link_to root_path, class: "pointer-events-auto" do %>
+                <%= image_tag 'logo1.jpg', class: 'h-10 w-auto' %>
                 <% end %>
             </div>
+
+            <!-- 🧾 Right actions (e.g. account menu) - visible only on larger screens -->
+            <div class="hidden sm:flex items-center space-x-4 ml-auto" data-controller="user-menu">
+                <button data-action="click->user-menu#toggle" class="flex items-center space-x-2 text-gray-700 hover:text-gray-900 focus:outline-none">
+                    <span><%= current_user ? (current_user.name.presence || current_user.email) : "Account" %></span>
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div data-user-menu-target="menu" class="absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg z-50 hidden">
+                    <ul class="py-1 text-sm text-gray-700">
+                        <li><%= link_to cart_path, class: "block px-4 py-2 hover:bg-gray-100" do %>🛒 Cart<% end %></li>
+                        <% if current_user %>
+                        <li><%= link_to "My Orders", orders_path, class: "block px-4 py-2 hover:bg-gray-100" %></li>
+                        <li><%= button_to "Logout", destroy_user_session_path, method: :delete, class: "block w-full text-left px-4 py-2 hover:bg-gray-100", form: { "data-turbo-confirm": "Are you sure you want to logout?" } %></li>
+                        <% else %>
+                        <li><%= link_to "Sign In", new_user_session_path, class: "block px-4 py-2 hover:bg-gray-100" %></li>
+                        <li><%= link_to "Sign Up", new_user_registration_path, class: "block px-4 py-2 hover:bg-gray-100" %></li>
+                        <% end %>
+                    </ul>
+                </div>
+            </div>
         </div>
-
-        <div id="selected-size" class="mb-4 text-sm font-medium text-gray-700"></div>
-
-        <label for="quantity" class="font-medium">Quantity:</label>
-        <input type="number" min="1" value="1" id="quantity-input" data-products-target="quantity" class="border px-2 py-1 rounded w-24 ml-2 mb-4" />
-
-        <button data-action="click->products#addToCart" class="bg-indigo-600 text-white font-semibold py-3 px-6 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
-            Add to Cart
-        </button>
     </div>
-</div>
+
+    <!-- 📱 Mobile Menu -->
+    <div data-controller="mobile-nav" data-mobile-nav-target="menu" class="sm:hidden hidden px-4 pt-2 pb-4 space-y-2 bg-gray-100 z-40">
+        <%= link_to 'Shop', root_path, class: 'block text-gray-700 hover:bg-gray-200 px-3 py-2 rounded-md text-base font-medium' %>
+
+        <% if current_user %>
+        <%= link_to "My Orders", orders_path, class: 'block text-gray-700 hover:bg-gray-200 px-3 py-2 rounded-md text-base font-medium' %>
+        <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "block w-full text-left px-3 py-2 hover:bg-gray-200 text-base font-medium", form: { "data-turbo-confirm": "Are you sure you want to logout?" } %>
+        <% else %>
+        <%= link_to "Sign In", new_user_session_path, class: 'block text-gray-700 hover:bg-gray-200 px-3 py-2 rounded-md text-base font-medium' %>
+        <%= link_to "Sign Up", new_user_registration_path, class: 'block text-gray-700 hover:bg-gray-200 px-3 py-2 rounded-md text-base font-medium' %>
+        <% end %>
+
+        <%= link_to cart_path, class: "block px-3 py-2 text-gray-700 hover:bg-gray-200 text-base font-medium" do %>🛒 Cart<% end %>
+    </div>
+</nav>
