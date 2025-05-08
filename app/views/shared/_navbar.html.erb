@@ -101,76 +101,75 @@
 =end%>
 
 <nav class="fixed w-full top-0 bg-gray-100 z-10 py-4">
-    <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
         <div class="relative flex items-center justify-between h-16">
-            <!-- Mobile menu button -->
+
+            <!-- Mobile Menu Button -->
             <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
-                <button type="button" data-action="click->mobile-nav#toggle" class="inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-black hover:bg-gray-200 focus:outline-none">
-                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-gray-900 focus:outline-none" aria-controls="mobile-menu" aria-expanded="false" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
                 </button>
             </div>
 
-            <!-- Desktop menu -->
-            <div class="hidden sm:flex sm:items-center sm:justify-center flex-1">
-                <div class="flex space-x-10">
-                    <%= link_to 'Shop', root_path, class: 'text-gray-500 hover:underline py-2 rounded-md text-md font-medium' %>
+            <!-- Main container -->
+            <div class="flex-1 flex flex-col sm:flex-row items-center justify-between w-full px-4 sm:px-0">
+
+                <!-- Left Menu (Desktop Only) -->
+                <div class="hidden sm:flex space-x-6">
+                    <%= link_to 'Shop', root_path, class: 'text-gray-500 hover:underline text-sm font-medium' %>
                 </div>
-            </div>
 
-            <!-- Logo -->
-            <div class="flex-shrink-0 flex items-center justify-center">
-                <%= link_to root_path do %>
-                <%= image_tag 'logo1.jpg', class: 'block lg:hidden h-12 w-auto' %>
-                <% end %>
-                <%= link_to root_path do %>
-                <%= image_tag 'logo1.jpg', class: 'hidden lg:block h-12 w-auto' %>
-                <% end %>
-            </div>
+                <!-- Logo Centered Always -->
+                <div class="flex-shrink-0 flex justify-center sm:justify-center items-center w-full sm:w-auto my-2 sm:my-0">
+                    <%= link_to root_path do %>
+                    <%= image_tag 'logo1.jpg', class: 'h-12 w-auto' %>
+                    <% end %>
+                </div>
 
-            <!-- Right menu -->
-            <div class="hidden sm:flex sml:ml-6 items-center relative" data-controller="user-menu">
-                <button data-action="click->user-menu#toggle" class="flex items-center space-x-2 text-gray-700 hover:text-gray-900 focus:outline-none">
-                    <span><%= current_user ? (current_user.name.presence || current_user.email) : "Account" %></span>
-                    <i class="fa fa-caret-down"></i>
-                </button>
-                <div data-user-menu-target="menu" class="absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg z-50 hidden">
-                    <ul class="py-1 text-sm text-gray-700">
-                        <li>
-                            <%= link_to cart_path, class: "block px-4 py-2 hover:bg-gray-100" do %>🛒 Cart<% end %>
-                        </li>
-                        <% if current_user %>
-                        <li><%= link_to "My Orders", orders_path, class: "block px-4 py-2 hover:bg-gray-100" %></li>
-                        <li>
-                            <%= button_to "Logout", destroy_user_session_path, method: :delete,
-                      class: "block w-full text-left px-4 py-2 hover:bg-gray-100 cursor-pointer",
-                      form: { "data-turbo-confirm": "Are you sure you want to logout?" } %>
-                        </li>
-                        <% else %>
-                        <li><%= link_to "Sign In", new_user_session_path, class: "block px-4 py-2 hover:bg-gray-100" %></li>
-                        <li><%= link_to "Sign Up", new_user_registration_path, class: "block px-4 py-2 hover:bg-gray-100" %></li>
-                        <% end %>
-                    </ul>
+                <!-- Right Menu (Desktop Only) -->
+                <div class="hidden sm:flex items-center space-x-2 relative" data-controller="user-menu">
+                    <button data-action="click->user-menu#toggle" class="flex items-center space-x-2 text-gray-700 hover:text-gray-900 focus:outline-none text-sm">
+                        <span><%= current_user ? (current_user.name.presence || current_user.email) : "Account" %></span>
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+
+                    <div data-user-menu-target="menu" class="absolute right-0 mt-10 w-48 bg-white border rounded shadow-lg z-50 hidden">
+                        <ul class="py-1 text-sm text-gray-700">
+                            <li><%= link_to cart_path, class: "block px-4 py-2 hover:bg-gray-100" do %>🛒 Cart<% end %></li>
+
+                            <% if current_user %>
+                            <li><%= link_to "My Orders", orders_path, class: "block px-4 py-2 hover:bg-gray-100" %></li>
+                            <li><%= button_to "Logout", destroy_user_session_path, method: :delete,
+                        class: "block w-full text-left px-4 py-2 hover:bg-gray-100 cursor-pointer",
+                        form: { "data-turbo-confirm": "Are you sure you want to logout?" } %></li>
+                            <% else %>
+                            <li><%= link_to "Sign In", new_user_session_path, class: "block px-4 py-2 hover:bg-gray-100" %></li>
+                            <li><%= link_to "Sign Up", new_user_registration_path, class: "block px-4 py-2 hover:bg-gray-100" %></li>
+                            <% end %>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Mobile menu -->
-    <div data-controller="mobile-nav" data-mobile-nav-target="menu" class="sm:hidden hidden px-2 pt-2 pb-3 space-y-1">
-        <%= link_to 'Shop', root_path, class: 'block text-gray-700 hover:bg-gray-200 px-3 py-2 rounded-md text-base font-medium' %>
+    <!-- Mobile Menu Dropdown -->
+    <div class="sm:hidden hidden" id="mobile-menu">
+        <div class="px-4 pt-4 pb-3 space-y-2">
+            <%= link_to 'Shop', root_path, class: 'block text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-base font-medium' %>
+            <%= link_to cart_path, class: "block text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-base font-medium" do %>🛒 Cart<% end %>
 
-        <% if current_user %>
-        <%= link_to "My Orders", orders_path, class: 'block text-gray-700 hover:bg-gray-200 px-3 py-2 rounded-md text-base font-medium' %>
-        <%= button_to "Logout", destroy_user_session_path, method: :delete,
-            class: "block w-full text-left px-3 py-2 hover:bg-gray-200 text-base font-medium",
+            <% if current_user %>
+            <%= link_to "My Orders", orders_path, class: "block text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-base font-medium" %>
+            <%= button_to "Logout", destroy_user_session_path, method: :delete,
+            class: "block w-full text-left text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-base font-medium",
             form: { "data-turbo-confirm": "Are you sure you want to logout?" } %>
-        <% else %>
-        <%= link_to "Sign In", new_user_session_path, class: 'block text-gray-700 hover:bg-gray-200 px-3 py-2 rounded-md text-base font-medium' %>
-        <%= link_to "Sign Up", new_user_registration_path, class: 'block text-gray-700 hover:bg-gray-200 px-3 py-2 rounded-md text-base font-medium' %>
-        <% end %>
-
-        <%= link_to cart_path, class: "block px-3 py-2 text-gray-700 hover:bg-gray-200 text-base font-medium" do %>🛒 Cart<% end %>
+            <% else %>
+            <%= link_to "Sign In", new_user_session_path, class: "block text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-base font-medium" %>
+            <%= link_to "Sign Up", new_user_registration_path, class: "block text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-base font-medium" %>
+            <% end %>
+        </div>
     </div>
 </nav>
