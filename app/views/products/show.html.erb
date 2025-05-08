@@ -43,9 +43,9 @@
 <%
 =end%>
 
-<div class="min-h-screen flex flex-col lg:flex-row items-center lg:items-start justify-center gap-10 px-4 py-10">
+<div class="min-h-screen flex flex-col lg:flex-row items-center justify-center gap-10 px-4 py-10">
     <!-- 🖼 Image Carousel -->
-    <div data-controller="carousel" class="relative w-full max-w-[400px] h-[400px] sm:max-w-[500px] sm:h-[500px] overflow-hidden rounded-lg shadow-md mb-8 lg:mb-0">
+    <div data-controller="carousel" class="relative w-full max-w-md h-[400px] sm:h-[500px] overflow-hidden rounded-lg shadow-md">
         <% @product.images.each_with_index do |image, index| %>
         <%= image_tag image.variant(resize_to_fill: [800, 800]),
         class: "absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out #{index == 0 ? 'opacity-100' : 'opacity-0'}",
@@ -62,18 +62,20 @@
     </div>
 
     <!-- 📦 Product Info & Add to Cart -->
-    <div data-controller="products" data-products-product-value='<%= raw @product_json %>' class="w-full max-w-md flex flex-col">
+    <div data-controller="products" data-products-product-value='<%= raw @product_json %>' class="w-full max-w-md flex flex-col items-start">
         <!-- Back to Categories link -->
         <%= link_to 'Back to Categories', category_path(@product.category_id), class: 'text-indigo-600 hover:text-indigo-800 mb-4' %>
 
         <div class="mb-8">
-            <h1 class="font-bold text-3xl sm:text-4xl uppercase mb-4"><%= @product.name %></h1>
-            <p class="text-xl sm:text-2xl mb-2">₦<%= number_with_delimiter(@product.price, delimiter: ',', precision: 0) %></p>
-            <p class="text-sm sm:text-md leading-relaxed mb-6"><%= @product.description %></p>
+            <h1 class="font-bold text-3xl sm:text-4xl uppercase mb-4">
+                <%= @product.name %>
+            </h1>
+            <p class="text-2xl mb-2">₦<%= number_with_delimiter(@product.price, delimiter: ',', precision: 0) %></p>
+            <p class="text-md leading-relaxed mb-6"><%= @product.description %></p>
         </div>
 
-        <div class="mb-8">
-            <p class="uppercase text-md mb-2">Size</p>
+        <div class="mb-8 w-full">
+            <p class="uppercase text-lg mb-2">Size</p>
             <div class="flex flex-wrap gap-2">
                 <% @product.stocks.each do |stock| %>
                 <% if stock.amount > 0 %>
@@ -92,9 +94,9 @@
         <div id="selected-size" class="mb-4 text-sm font-medium text-gray-700"></div>
 
         <label for="quantity" class="font-medium">Quantity:</label>
-        <input type="number" min="1" value="1" id="quantity-input" data-products-target="quantity" class="border px-2 py-1 rounded w-24 ml-2 mb-4" />
+        <input type="number" min="1" value="1" id="quantity-input" data-products-target="quantity" class="border px-2 py-1 rounded w-20 ml-2 mb-4" />
 
-        <button data-action="click->products#addToCart" class="bg-indigo-600 text-white font-semibold py-3 px-6 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
+        <button data-action="click->products#addToCart" class="w-full sm:w-auto bg-indigo-600 text-white font-semibold py-3 px-6 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
             Add to Cart
         </button>
     </div>
