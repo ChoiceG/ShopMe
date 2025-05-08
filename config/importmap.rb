@@ -14,7 +14,6 @@ pin "controllers/data_method_controller", to: "controllers/data_method_controlle
 pin "controllers/testimonial_carousel_controller", to: "controllers/testimonial_carousel_controller.js"
 pin "controllers/dropdown_controller", to: "controllers/dropdown_controller.js"
 pin "controllers/user_menu_controller", to: "controllers/user_menu_controller.js"
-pin "controllers/mobile_nav_controller", to: "controllers/mobile_nav_controller.js"
 
 pin "chart.js", to: "https://ga.jspm.io/npm:chart.js@4.4.8/dist/chart.js" # Or a similar line
 pin "@kurkle/color", to: "https://ga.jspm.io/npm:@kurkle/color@0.3.4/dist/color.esm.js"
