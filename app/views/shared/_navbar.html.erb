@@ -112,6 +112,13 @@
                 </button>
             </div>
 
+            <!-- Desktop menu -->
+            <div class="hidden sm:flex sm:items-center sm:justify-center flex-1">
+                <div class="flex space-x-10">
+                    <%= link_to 'Shop', root_path, class: 'text-gray-500 hover:underline py-2 rounded-md text-md font-medium' %>
+                </div>
+            </div>
+
             <!-- Logo -->
             <div class="flex-shrink-0 flex items-center justify-center">
                 <%= link_to root_path do %>
@@ -120,13 +127,6 @@
                 <%= link_to root_path do %>
                 <%= image_tag 'logo1.jpg', class: 'hidden lg:block h-12 w-auto' %>
                 <% end %>
-            </div>
-
-            <!-- Desktop menu -->
-            <div class="hidden sm:flex sm:items-center sm:justify-center flex-1">
-                <div class="flex space-x-10">
-                    <%= link_to 'Shop', root_path, class: 'text-gray-500 hover:underline py-2 rounded-md text-md font-medium' %>
-                </div>
             </div>
 
             <!-- Right menu -->
